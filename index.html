@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambrosia | Boutique de Licores & Snacks</title>
+    <meta name="description" content="Gestión y venta de licores nacionales, importados, cervezas premium y snacks. Compra fácil y rápida.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" id="navLogo">
+                <span class="logo-icon"><i class="fa-solid fa-wine-glass-sad"></i></span>
+                <span class="logo-text">Ambrosia</span>
+            </a>
+            
+            <nav class="nav-links">
+                <a href="#catalogo" class="nav-link active" id="link-catalogo"><i class="fa-solid fa-store"></i> Catálogo</a>
+                <a href="#nosotros" class="nav-link" id="link-nosotros"><i class="fa-solid fa-circle-info"></i> Nosotros</a>
+                <button class="admin-toggle-btn" id="adminToggleBtn"><i class="fa-solid fa-user-gear"></i> Panel Admin</button>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Buscar producto...">
+                    <button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <button class="cart-toggle" id="cartToggleBtn" aria-label="Abrir Carrito">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="cart-count-badge" id="cartBadgeCount">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main>
+        <!-- Client / Shop Mode -->
+        <section id="shop-view" class="view-section active">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <span class="hero-tagline">Experiencia Premium</span>
+                    <h1 class="hero-title">Boutique de Licores & Snacks</h1>
+                    <p class="hero-desc">Descubre nuestra exclusiva selección de cervezas artesanales, importadas, licores finos del mundo y los mejores acompañamientos para tus celebraciones.</p>
+                    <div class="hero-buttons">
+                        <a href="#catalogo" class="btn btn-primary">Ver Catálogo</a>
+                        <a href="#recomendados" class="btn btn-outline" id="scrollToFeatured">Recomendados</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories / Modules Slider -->
+            <section class="categories-bar" id="catalogo">
+                <div class="section-title-wrapper">
+                    <h2 class="section-title">Nuestras Colecciones</h2>
+                    <p class="section-subtitle">Filtra por módulos de productos para encontrar tu preferido</p>
+                </div>
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="all">
+                        <i class="fa-solid fa-border-all"></i> Todo
+                    </button>
+                    <button class="category-tab" data-category="cerveza-nacional">
+                        <i class="fa-solid fa-beer-mug-empty"></i> Cervezas Nacionales
+                    </button>
+                    <button class="category-tab" data-category="cerveza-importada">
+                        <i class="fa-solid fa-beer-mug-empty"></i> Cervezas Importadas
+                    </button>
+                    <button class="category-tab" data-category="licores">
+                        <i class="fa-solid fa-whiskey-glass"></i> Licores (Whisky, Ron, Aguardiente)
+                    </button>
+                    <button class="category-tab" data-category="snacks">
+                        <i class="fa-solid fa-cookie"></i> Snacks & Paquetes
+                    </button>
+                </div>
+            </section>
+
+            <!-- Catalog Grid -->
+            <section class="catalog-section">
+                <div class="catalog-header">
+                    <span class="results-count" id="resultsCount">Mostrando todos los productos</span>
+                    <div class="sort-selector">
+                        <label for="sortProducts">Ordenar por:</label>
+                        <select id="sortProducts">
+                            <option value="default">Recomendados</option>
+                            <option value="price-low">Precio: Bajo a Alto</option>
+                            <option value="price-high">Precio: Alto a Bajo</option>
+                            <option value="name-asc">Nombre: A-Z</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="products-grid" id="productsGrid">
+                    <!-- Products will be dynamically generated by JS -->
+                </div>
+            </section>
+        </section>
+
+        <!-- Admin / Management Mode -->
+        <section id="admin-view" class="view-section">
+            <div class="admin-container">
+                <div class="admin-header-row">
+                    <div>
+                        <h2 class="admin-title"><i class="fa-solid fa-toolbox text-amber"></i> Panel de Control de Inventario</h2>
+                        <p class="admin-subtitle">Agrega, edita y administra los módulos de productos de Ambrosia</p>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="btn btn-primary" id="openAddModalBtn"><i class="fa-solid fa-plus"></i> Nuevo Producto</button>
+                        <button class="btn btn-outline" id="resetCatalogBtn"><i class="fa-solid fa-rotate-left"></i> Restaurar Catálogo</button>
+                        <button class="btn btn-danger" id="exitAdminBtn"><i class="fa-solid fa-xmark"></i> Salir del Panel</button>
+                    </div>
+                </div>
+
+                <!-- Admin Metrics -->
+                <div class="admin-metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon bg-amber-soft"><i class="fa-solid fa-boxes-stacked text-amber"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-label">Total Productos</span>
+                            <span class="metric-value" id="metricTotalProducts">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon bg-blue-soft"><i class="fa-solid fa-beer-mug-empty text-blue"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-label">Cervezas</span>
+                            <span class="metric-value" id="metricBeers">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon bg-purple-soft"><i class="fa-solid fa-wine-bottle text-purple"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-label">Licores Finos</span>
+                            <span class="metric-value" id="metricLiquors">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon bg-green-soft"><i class="fa-solid fa-cookie-bite text-green"></i></div>
+                        <div class="metric-info">
+                            <span class="metric-label">Snacks & Paquetes</span>
+                            <span class="metric-value" id="metricSnacks">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Table -->
+                <div class="table-wrapper">
+                    <table class="inventory-table" id="inventoryTable">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Módulo / Categoría</th>
+                                <th>Detalle / Tipo</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <!-- Rows dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="nosotros-section" class="nosotros-section">
+            <div class="nosotros-container">
+                <div class="nosotros-content">
+                    <h2 class="nosotros-title">Sobre Ambrosia</h2>
+                    <p class="nosotros-text">
+                        Fundada con la visión de llevar los mejores licores del mundo y acompañamientos de primera calidad directamente a tus manos. Nos esforzamos por ofrecer una experiencia selecta y una atención impecable.
+                    </p>
+                    <p class="nosotros-text">
+                        Nuestra curaduría incluye desde cervezas de microcervecerías nacionales hasta prestigiosas marcas importadas, licores añejados de renombre y snacks gourmet.
+                    </p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <div>
+                                <h4>Entrega Express</h4>
+                                <p>Tus bebidas frías a domicilio en menos de 40 minutos.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <div>
+                                <h4>100% Originales</h4>
+                                <p>Garantía de procedencia de todos nuestros licores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nosotros-image-box">
+                    <img src="assets/images/hero.png" alt="Ambrosia Boutique" onerror="this.src='https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80'">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo-text"><i class="fa-solid fa-wine-glass-sad text-amber"></i> Ambrosia</span>
+                <p>La distribuidora y boutique de licores premium favorita de la ciudad.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Módulos</h4>
+                <ul>
+                    <li><a href="#catalogo" onclick="selectCategoryTab('cerveza-nacional')">Cervezas Nacionales</a></li>
+                    <li><a href="#catalogo" onclick="selectCategoryTab('cerveza-importada')">Cervezas Importadas</a></li>
+                    <li><a href="#catalogo" onclick="selectCategoryTab('licores')">Licores y Destilados</a></li>
+                    <li><a href="#catalogo" onclick="selectCategoryTab('snacks')">Snacks y Paquetes</a></li>
+                </ul>
+            </div>
+            <div class="footer-info">
+                <h4>Horario de Atención</h4>
+                <p><i class="fa-regular fa-clock"></i> Dom - Jue: 12:00 PM - 11:00 PM</p>
+                <p><i class="fa-regular fa-clock"></i> Vie - Sáb: 12:00 PM - 02:00 AM</p>
+                <p class="warning-text"><i class="fa-solid fa-circle-exclamation"></i> EL EXCESO DE ALCOHOL ES PERJUDICIAL PARA LA SALUD. PROHIBIDA LA VENTA A MENORES DE EDAD.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Ambrosia Boutique de Licores. Desarrollado con elegancia.</p>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Drawer (Right Sidebar) -->
+    <div class="cart-drawer-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3><i class="fa-solid fa-bag-shopping"></i> Tu Carrito</h3>
+            <button class="close-cart-btn" id="closeCartBtn" aria-label="Cerrar Carrito"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <div class="cart-drawer-body" id="cartItemsContainer">
+            <!-- Cart Items populate here -->
+            <div class="empty-cart-state">
+                <i class="fa-solid fa-cart-flatbed-suitcase"></i>
+                <p>Tu carrito está vacío</p>
+                <button class="btn btn-primary btn-sm" id="cartStartShoppingBtn">Explorar Catálogo</button>
+            </div>
+        </div>
+
+        <div class="cart-drawer-footer">
+            <div class="cart-promo-code">
+                <input type="text" id="promoCodeInput" placeholder="Código de descuento (ej: AMBROSIA10)">
+                <button class="btn btn-outline btn-sm" id="applyPromoBtn">Aplicar</button>
+            </div>
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal">$0.00</span>
+                </div>
+                <div class="summary-row discount-row" id="cartDiscountRow" style="display: none;">
+                    <span>Descuento (<span id="discountPercentage">0</span>%):</span>
+                    <span id="cartDiscount">-$0.00</span>
+                </div>
+                <div class="summary-row total-row">
+                    <span>Total Venta:</span>
+                    <span id="cartTotal">$0.00</span>
+                </div>
+            </div>
+            <button class="btn btn-primary w-full" id="checkoutBtn" disabled>
+                <i class="fa-solid fa-credit-card"></i> Proceder al Pago
+            </button>
+        </div>
+    </aside>
+
+    <!-- Product Form Modal (Add / Edit Product) -->
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Agregar Nuevo Producto</h3>
+                <button class="close-modal-btn" id="closeModalBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="editProductId">
+                
+                <div class="form-group">
+                    <label for="prodName">Nombre del Producto *</label>
+                    <input type="text" id="prodName" required placeholder="Ej: Johnnie Walker Double Black">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prodCategory">Módulo *</label>
+                        <select id="prodCategory" required>
+                            <option value="">Seleccione un módulo</option>
+                            <option value="cerveza-nacional">Cerveza Nacional</option>
+                            <option value="cerveza-importada">Cerveza Importada</option>
+                            <option value="licores">Licores (Whisky, Ron, Aguardiente, etc.)</option>
+                            <option value="snacks">Snacks & Paquetes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodType">Detalle/Tipo de Licor o Paquete *</label>
+                        <input type="text" id="prodType" required placeholder="Ej: Whisky, Ron, Rubia, Papas, etc.">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prodPrice">Precio ($) *</label>
+                        <input type="number" id="prodPrice" required min="0" step="100" placeholder="Ej: 145000">
+                    </div>
+                    <div class="form-group">
+                        <label for="prodStock">Stock Inicial *</label>
+                        <input type="number" id="prodStock" required min="0" placeholder="Ej: 24">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodImage">Enlace de Imagen (URL)</label>
+                    <input type="url" id="prodImage" placeholder="https://ejemplo.com/imagen.jpg">
+                    <small class="form-tip">Deja en blanco para usar una imagen por defecto de acuerdo al módulo.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="prodDesc">Descripción del Producto</label>
+                    <textarea id="prodDesc" rows="3" placeholder="Breve descripción del producto, procedencia, etc."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancelModalBtn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="saveProductBtn">Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkout Confirmation Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="checkout-receipt-box">
+            <div class="receipt-header">
+                <i class="fa-solid fa-circle-check text-green receipt-success-icon"></i>
+                <h3>¡Compra Realizada con Éxito!</h3>
+                <p>Gracias por elegir Ambrosia Boutique</p>
+            </div>
+            <div class="receipt-body">
+                <div class="receipt-divider"><span>Detalle de Factura</span></div>
+                <div class="receipt-info-row">
+                    <span>Fecha:</span>
+                    <span id="receiptDate">19/06/2026</span>
+                </div>
+                <div class="receipt-info-row">
+                    <span>Nº Pedido:</span>
+                    <span id="receiptOrderNum">#AMB-9472</span>
+                </div>
+                
+                <div class="receipt-items" id="receiptItemsList">
+                    <!-- Receipt items populated dynamically -->
+                </div>
+                
+                <div class="receipt-divider"></div>
+                <div class="receipt-info-row receipt-total-row">
+                    <span>TOTAL PAGADO:</span>
+                    <span id="receiptTotal">$0.00</span>
+                </div>
+            </div>
+            <div class="receipt-footer">
+                <button class="btn btn-primary w-full" id="closeReceiptBtn">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
